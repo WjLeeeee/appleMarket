@@ -11,12 +11,13 @@ import android.os.Build
 import android.os.Bundle
 import android.view.KeyEvent
 import android.view.View
-import android.widget.Toast
+import android.view.animation.AlphaAnimation
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.NotificationCompat
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.example.applemarket.databinding.ActivityMainBinding
 
 
@@ -28,14 +29,41 @@ class MainActivity : AppCompatActivity() {
 
 
         val adapter = MyAdapter(Product.dataList)
-        binding.recyclerView.adapter = adapter
-        binding.recyclerView.layoutManager = LinearLayoutManager(this)
-        binding.recyclerView.addItemDecoration(DividerItemDecoration(applicationContext, 1))
+        with(binding){
+            recyclerView.adapter = adapter
+            recyclerView.layoutManager = LinearLayoutManager(this@MainActivity)
+            recyclerView.addItemDecoration(DividerItemDecoration(applicationContext, 1))
 
-        binding.notification.setOnClickListener {
-            notification()
+            notification.setOnClickListener { notification() }
         }
 
+        //플로팅버튼이 서서이 보이게, 사라지게하는 애니메이션
+        val fadeIn = AlphaAnimation(0f,1f).apply { duration=1000 }
+        val fadeOut = AlphaAnimation(1f,0f).apply { duration=1000 }
+        var isTop = true
+
+        with(binding){
+            recyclerView.addOnScrollListener(object: RecyclerView.OnScrollListener() {
+                override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
+                    super.onScrollStateChanged(recyclerView, newState)
+                    if (!binding.recyclerView.canScrollVertically(-1)
+                        && newState == RecyclerView.SCROLL_STATE_IDLE) {
+                        binding.floatingBtn.startAnimation(fadeOut)
+                        binding.floatingBtn.visibility = View.GONE
+                        isTop = true
+                    } else {
+                        if(isTop) {
+                            binding.floatingBtn.visibility = View.VISIBLE
+                            binding.floatingBtn.startAnimation(fadeIn)
+                            isTop = false
+                        }
+                    }
+                }
+            })
+            floatingBtn.setOnClickListener {
+                binding.recyclerView.smoothScrollToPosition(0)
+            }
+        }
     }
 
     override fun onKeyDown(keyCode: Int, event: KeyEvent): Boolean {
