@@ -1,14 +1,17 @@
 package com.example.applemarket
 
+import android.content.DialogInterface
 import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.recyclerview.widget.RecyclerView
 import com.example.applemarket.databinding.ItemRecyclerviewBinding
 import java.text.DecimalFormat
 
-class MyAdapter(val mItems: List<Product>) : RecyclerView.Adapter<MyAdapter.Holder>() {
+class MyAdapter(val mItems: MutableList<Product>) : RecyclerView.Adapter<MyAdapter.Holder>() {
 
     interface ItemClick {
         fun onClick(view : View, position : Int)
@@ -27,6 +30,38 @@ class MyAdapter(val mItems: List<Product>) : RecyclerView.Adapter<MyAdapter.Hold
                 putExtra("data", mItems[position])
             }
             holder.itemView.context.startActivity(intent)
+        }
+        //상품 롱클릭시 삭제
+        holder.itemView.setOnLongClickListener {
+            val builder = AlertDialog.Builder(holder.itemView.context)
+            builder.setTitle("상품 삭제")
+            builder.setMessage("상품을 정말로 삭제하시겠습니까?")
+            builder.setIcon(R.drawable.chat)
+            builder.setCancelable(false)
+
+            val listener = object : DialogInterface.OnClickListener {
+                override fun onClick(p0: DialogInterface?, p1: Int) {
+                    val adapterPosition = holder.adapterPosition
+                    when (p1) {
+                        DialogInterface.BUTTON_POSITIVE -> {
+                            // 확인 버튼을 눌렀을 때
+                            mItems.removeAt(adapterPosition)
+                            notifyItemRemoved(adapterPosition)
+                        }
+
+                        DialogInterface.BUTTON_NEGATIVE -> {
+                            // 취소 버튼을 눌렀을 때
+                            p0?.dismiss()
+                        }
+                    }
+                }
+            }
+
+            builder.setPositiveButton("확인", listener)
+            builder.setNegativeButton("취소", listener)
+
+            builder.show()
+            true
         }
         val myFormatter = DecimalFormat("###,###")
 

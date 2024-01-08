@@ -15,7 +15,7 @@ data class Product(
     val productChatting:Int
 ) : Parcelable{
     companion object{
-        val dataList = listOf(
+        val dataList = mutableListOf(
             Product(
                 R.drawable.sample1,
                 "산지 한달된 선풍기 팝니다",
