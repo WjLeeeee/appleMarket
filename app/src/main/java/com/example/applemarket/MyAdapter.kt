@@ -5,13 +5,14 @@ import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
+import androidx.activity.result.ActivityResultLauncher
 import androidx.appcompat.app.AlertDialog
 import androidx.recyclerview.widget.RecyclerView
 import com.example.applemarket.databinding.ItemRecyclerviewBinding
 import java.text.DecimalFormat
 
 class MyAdapter(val mItems: MutableList<Product>) : RecyclerView.Adapter<MyAdapter.Holder>() {
+    private lateinit var resultLauncher: ActivityResultLauncher<Intent>
 
     interface ItemClick {
         fun onClick(view : View, position : Int)
@@ -29,7 +30,8 @@ class MyAdapter(val mItems: MutableList<Product>) : RecyclerView.Adapter<MyAdapt
             val intent = Intent(holder.itemView.context, DetailActivity::class.java).apply {
                 putExtra("data", mItems[position])
             }
-            holder.itemView.context.startActivity(intent)
+            resultLauncher.launch(intent)
+//            holder.itemView.context.startActivity(intent)
         }
         //상품 롱클릭시 삭제
         holder.itemView.setOnLongClickListener {
@@ -72,6 +74,7 @@ class MyAdapter(val mItems: MutableList<Product>) : RecyclerView.Adapter<MyAdapt
         holder.price.text = myFormatter.format(mItems[position].productPrice).toString() + "원"
         holder.chat.text = mItems[position].productChatting.toString()
         holder.heart.text = mItems[position].productLike.toString()
+        holder.heartImg.setImageResource(mItems[position].productLikeIcon)
     }
 
     override fun getItemId(position: Int): Long {
@@ -89,5 +92,10 @@ class MyAdapter(val mItems: MutableList<Product>) : RecyclerView.Adapter<MyAdapt
         val price = binding.priceItem
         val chat = binding.chatItem
         val heart = binding.heartItem
+        val heartImg = binding.heartItemImg
+    }
+
+    fun setResult(resultLauncher: ActivityResultLauncher<Intent>) {
+        this.resultLauncher = resultLauncher
     }
 }

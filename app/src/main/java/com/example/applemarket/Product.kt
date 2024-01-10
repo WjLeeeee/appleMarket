@@ -11,7 +11,8 @@ data class Product(
     val seller:String,
     val productPrice:Int,
     val address:String,
-    val productLike:Int,
+    var productLike:Int,
+    var productLikeIcon :Int,
     val productChatting:Int
 ) : Parcelable{
     companion object{
@@ -24,6 +25,7 @@ data class Product(
                 1000,
                 "서울 서대문구 창천동",
                 13,
+                R.drawable.heart,
                 25
             ),
             Product(
@@ -34,6 +36,7 @@ data class Product(
                 20000,
                 "인천 계양구 귤현동",
                 8,
+                R.drawable.heart,
                 28
             ),
             Product(
@@ -44,6 +47,7 @@ data class Product(
                 10000,
                 "수성구 범어동",
                 23,
+                R.drawable.heart,
                 5
             ),
             Product(
@@ -54,6 +58,7 @@ data class Product(
                 10000,
                 "해운대구 우제2동",
                 14,
+                R.drawable.heart,
                 17
             ),
             Product(
@@ -64,6 +69,7 @@ data class Product(
                 150000,
                 "연제구 연산제8동",
                 22,
+                R.drawable.heart,
                 9
             ),
             Product(
@@ -74,6 +80,7 @@ data class Product(
                 50000,
                 "수원시 영통구 원천동",
                 25,
+                R.drawable.heart,
                 16
             ),
             Product(
@@ -84,6 +91,7 @@ data class Product(
                 150000,
                 "남구 옥동",
                 142,
+                R.drawable.heart,
                 54
             ),
             Product(
@@ -94,6 +102,7 @@ data class Product(
                 180000,
                 "동래구 온천제2동",
                 31,
+                R.drawable.heart,
                 7
             ),
             Product(
@@ -104,6 +113,7 @@ data class Product(
                 30000,
                 "원주시 명륜2동",
                 7,
+                R.drawable.heart,
                 28
             ),
             Product(
@@ -114,6 +124,7 @@ data class Product(
                 190000,
                 "중구 동화동",
                 40,
+                R.drawable.heart,
                 6
             )
         )

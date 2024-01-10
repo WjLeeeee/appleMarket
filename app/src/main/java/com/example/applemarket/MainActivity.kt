@@ -1,9 +1,11 @@
 package com.example.applemarket
 
 
+import android.app.Activity
 import  android.app.NotificationChannel
 import android.app.NotificationManager
 import android.content.DialogInterface
+import android.content.Intent
 import android.media.AudioAttributes
 import android.media.RingtoneManager
 import android.net.Uri
@@ -12,6 +14,8 @@ import android.os.Bundle
 import android.view.KeyEvent
 import android.view.View
 import android.view.animation.AlphaAnimation
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.NotificationCompat
@@ -23,12 +27,30 @@ import com.example.applemarket.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
     private val binding by lazy { ActivityMainBinding.inflate(layoutInflater) }
+    private lateinit var resultLauncher: ActivityResultLauncher<Intent>
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
 
 
+        // MyAdapter를 초기화하고 결과 런처를 설정
         val adapter = MyAdapter(Product.dataList)
+        resultLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+            if (result.resultCode == Activity.RESULT_OK) {
+                val data: Product? = result.data?.getParcelableExtra("updatedProduct")
+                data?.let {
+                    val index = adapter.mItems.indexOfFirst { product -> product.productName == it.productName }
+                    if (index != -1) {
+                        adapter.mItems[index] = it
+                        adapter.notifyItemChanged(index)
+                    }
+                }
+            }
+        }
+        adapter.setResult(resultLauncher)
+
+
         with(binding){
             recyclerView.adapter = adapter
             recyclerView.layoutManager = LinearLayoutManager(this@MainActivity)

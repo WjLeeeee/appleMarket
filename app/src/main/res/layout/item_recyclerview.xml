@@ -59,6 +59,7 @@
                 android:layout_height="wrap_content"
                 android:text="10"/>
             <ImageView
+                android:id="@+id/heart_item_img"
                 android:layout_marginRight="3dp"
                 android:layout_width="20dp"
                 android:layout_height="20dp"
