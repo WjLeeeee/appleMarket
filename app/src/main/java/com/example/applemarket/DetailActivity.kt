@@ -2,6 +2,7 @@ package com.example.applemarket
 
 import android.app.Activity
 import android.content.Intent
+import android.graphics.Paint
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.example.applemarket.databinding.ActivityDetailBinding
@@ -32,6 +33,7 @@ class DetailActivity : AppCompatActivity() {
             binding.detailImage.setImageResource(productIcon)
         }
         with(binding) {
+            mannerTemp.setPaintFlags(Paint.UNDERLINE_TEXT_FLAG)
             detailSeller.text = seller
             detailProductName.text = productName
             detailProductPrice.text = productPrice.toString()
