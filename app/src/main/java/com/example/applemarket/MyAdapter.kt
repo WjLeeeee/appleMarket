@@ -13,7 +13,6 @@ import java.text.DecimalFormat
 
 class MyAdapter(val mItems: MutableList<Product>) : RecyclerView.Adapter<MyAdapter.Holder>() {
     private lateinit var resultLauncher: ActivityResultLauncher<Intent>
-
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): Holder {
         val binding = ItemRecyclerviewBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return Holder(binding)
