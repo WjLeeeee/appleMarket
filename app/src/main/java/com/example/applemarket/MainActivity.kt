@@ -38,7 +38,7 @@ class MainActivity : AppCompatActivity() {
         val adapter = MyAdapter(Product.dataList)
         resultLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
             if (result.resultCode == Activity.RESULT_OK) {
-                val data: Product? = result.data?.getParcelableExtra("updatedProduct")
+                val data: Product? = result.data?.getParcelableExtra(Constants.UPDATE_DATA)
                 data?.let {
                     val index = adapter.mItems.indexOfFirst { product -> product.productName == it.productName }
                     if (index != -1) {

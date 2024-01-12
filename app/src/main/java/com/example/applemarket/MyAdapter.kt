@@ -14,12 +14,6 @@ import java.text.DecimalFormat
 class MyAdapter(val mItems: MutableList<Product>) : RecyclerView.Adapter<MyAdapter.Holder>() {
     private lateinit var resultLauncher: ActivityResultLauncher<Intent>
 
-    interface ItemClick {
-        fun onClick(view : View, position : Int)
-    }
-
-    var itemClick : ItemClick? = null
-
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): Holder {
         val binding = ItemRecyclerviewBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return Holder(binding)
@@ -28,10 +22,9 @@ class MyAdapter(val mItems: MutableList<Product>) : RecyclerView.Adapter<MyAdapt
     override fun onBindViewHolder(holder: Holder, position: Int) {
         holder.itemView.setOnClickListener {  //클릭이벤트추가부분
             val intent = Intent(holder.itemView.context, DetailActivity::class.java).apply {
-                putExtra("data", mItems[position])
+                putExtra(Constants.ITEM_DATA, mItems[position])
             }
             resultLauncher.launch(intent)
-//            holder.itemView.context.startActivity(intent)
         }
         //상품 롱클릭시 삭제
         holder.itemView.setOnLongClickListener {

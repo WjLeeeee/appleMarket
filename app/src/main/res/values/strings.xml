@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">감자마켓</string>
+    <string name="detail_temp"><u>매너온도</u></string>
 </resources>

@@ -16,7 +16,7 @@ class DetailActivity : AppCompatActivity() {
 
         val myFormatter = DecimalFormat("###,###")
 
-        val selected = intent.getParcelableExtra<Product>("data")
+        val selected = intent.getParcelableExtra<Product>(Constants.ITEM_DATA)
         var productIcon = selected?.productIcon
         val productName = selected?.productName
         val productDes = selected?.productDes
@@ -34,7 +34,7 @@ class DetailActivity : AppCompatActivity() {
         with(binding) {
             detailSeller.text = seller
             detailProductName.text = productName
-            detailProductPrice.text = productPrice.toString()
+            detailProductPrice.text = productPrice
             detailAddress.text = address
             detailProductDes.text = productDes
             heartImage.setImageResource(productLikeIcon!!)
@@ -54,7 +54,7 @@ class DetailActivity : AppCompatActivity() {
                 }
                 // 변경된 데이터를 Intent에 담아서 MainActivity로 전달
                 val resultIntent = Intent().apply {
-                    putExtra("updatedProduct", Product(productIcon ?: 0, productName ?: "", productDes ?: "",
+                    putExtra(Constants.UPDATE_DATA, Product(productIcon ?: 0, productName ?: "", productDes ?: "",
                         seller ?: "", price ?: 0, address ?: "",
                         productLike ?: 0, productLikeIcon ?: 0, productChatting ?: 0))
                 }
